@@ -15,10 +15,31 @@ ClienteController.findByPk = (req, res) => {
   });
 };
 
-ClienteController.findOne = (req, res) => {
+ClienteController.findByName = (req, res) => {
   const nombre = req.params.nombre;
   console.log();
-  Clientes.findOne({ where: { Nombre: "David" } }).then((data) => {
+  Clientes.findOne({ where: { Nombre: nombre } }).then((data) => {
+    res.send(data);
+  });
+};
+
+ClienteController.findByDNI = (req, res) => {
+  const dni = req.params.dni;
+  Clientes.findOne({ where: { dni: dni } }).then((data) => {
+    res.send(data);
+  });
+};
+
+ClienteController.findByPhone = (req, res) => {
+  const phone = req.params.phone;
+  Clientes.findOne({ where: { telefono: phone } }).then((data) => {
+    res.send(data);
+  });
+};
+
+ClienteController.findByEmail = (req, res) => {
+  const email = req.params.email;
+  Clientes.findOne({ where: { email: email } }).then((data) => {
     res.send(data);
   });
 };
