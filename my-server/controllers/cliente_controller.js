@@ -17,7 +17,6 @@ ClienteController.findByPk = (req, res) => {
 
 ClienteController.findByName = (req, res) => {
   const nombre = req.params.nombre;
-  console.log();
   Clientes.findOne({ where: { Nombre: nombre } }).then((data) => {
     res.send(data);
   });
