@@ -10,13 +10,8 @@ ReservaController.findAll = async(req, res)=>{
         {model: Hoteles, as: "id_hotel_Hotele"}
       ],
     });
-    if(data>0){
-      res.json(data);
-    } else {
-      res.status(404).send({
-        message: "Cannot find any reservation.",
-      });
-    }
+    res.json(data);  
+    
   } catch (error) {
     // El catch siempre se utiliza para un error de servidor: 500
     res.status(500).send({
