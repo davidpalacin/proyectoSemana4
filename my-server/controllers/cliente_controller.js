@@ -1,4 +1,5 @@
-const { Clientes } = require("../models/index");
+const { Clientes } = require("../models");
+const { Op } = require("sequelize");
 
 const ClienteController = {};
 
@@ -43,4 +44,10 @@ ClienteController.findByEmail = (req, res) => {
   });
 };
 
+ClienteController.findByNameLike = (req, res)=> {
+  const nombre = req.params.nombre;
+  Clientes.findAll({ where: { Nombre: {[Op.like]: `%${nombre}%`} } }).then((data) => {
+    res.send(data);
+  });
+}
 module.exports = ClienteController;

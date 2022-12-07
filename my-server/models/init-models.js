@@ -1,12 +1,12 @@
-var DataTypes = require("sequelize").DataTypes;
-var _Clientes = require("./Clientes");
-var _Hoteles = require("./Hoteles");
-var _Reservas = require("./Reservas");
+const DataTypes = require("sequelize").DataTypes;
+const _Clientes = require("./Clientes");
+const _Hoteles = require("./Hoteles");
+const _Reservas = require("./Reservas");
 
 function initModels(sequelize) {
-  var Clientes = _Clientes(sequelize, DataTypes);
-  var Hoteles = _Hoteles(sequelize, DataTypes);
-  var Reservas = _Reservas(sequelize, DataTypes);
+  const Clientes = _Clientes(sequelize, DataTypes);
+  const Hoteles = _Hoteles(sequelize, DataTypes);
+  const Reservas = _Reservas(sequelize, DataTypes);
 
   Reservas.belongsTo(Clientes, { as: "id_cliente_Cliente", foreignKey: "id_cliente"});
   Clientes.hasMany(Reservas, { as: "Reservas", foreignKey: "id_cliente"});

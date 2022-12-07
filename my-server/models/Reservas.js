@@ -1,6 +1,11 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Reservas', {
+module.exports = (sequelize, DataTypes) => {
+  return Reservas.init(sequelize, DataTypes);
+}
+
+class Reservas extends Sequelize.Model {
+  static init(sequelize, DataTypes) {
+  return super.init({
     id_reserva: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -30,6 +35,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'Hoteles',
         key: 'id_hotel'
       }
+    },
+    precio_reserva: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,
@@ -60,4 +69,5 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+  }
+}
