@@ -15,6 +15,11 @@ router.get(
   "/id/:id/entrydate/:entrydate",
   ReservaController.findByEntryDateWithPk
 );
+// Reservas de un cliente con id especifico
+router.get(
+  "/clientID/:idClient",
+  ReservaController.findReservOfClient
+);
 
 
 module.exports = router;

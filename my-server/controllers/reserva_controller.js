@@ -130,4 +130,28 @@ ReservaController.findByEntryDateWithPk = async (req, res) => {
   }
 };
 
+ReservaController.findReservOfClient = async (req, res) => {
+  try {
+    const idClient = req.params.idClient;
+    const data = await Reservas.findAll({
+      where: { id_cliente: idClient },
+      include: [
+        { model: Clientes, as: "id_cliente_Cliente" },
+        { model: Hoteles, as: "id_hotel_Hotele" },
+      ],
+    });
+    if(data.length > 0){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find any reservations of client id: ${idClient}`,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: `Internal server error finding reservations of client id: ${idClient}`,
+    });
+  }
+}
+
 module.exports = ReservaController;
