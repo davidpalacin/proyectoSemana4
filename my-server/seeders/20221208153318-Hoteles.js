@@ -15,6 +15,9 @@ module.exports = {
       },
       {
         nombre: 'Hotel Glories Barcelona'
+      },
+      {
+        nombre: 'Hotelet del Bac'
       }
   ], {});
   },

@@ -34,6 +34,20 @@ module.exports = {
          id_cliente: 3,
          precio_reserva: 5000,
        },
+       {
+         fecha_entrada: "2024-08-06",
+         fecha_salida: "2024-08-13",
+         id_hotel: 5,
+         id_cliente: 10,
+         precio_reserva: 595,
+       },
+       {
+         fecha_entrada: "2024-08-13",
+         fecha_salida: "2024-08-15",
+         id_hotel: 4,
+         id_cliente: 10,
+         precio_reserva: 250,
+       },
      ],
      {}
    );
