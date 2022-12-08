@@ -3,51 +3,136 @@ const { Op } = require("sequelize");
 
 const ClienteController = {};
 
-ClienteController.findAll = (req, res) => {
-  Clientes.findAll().then((data) => {
-    res.send(data);
-  });
+ClienteController.findAll = async (req, res) => {
+  try {
+    const data = await Clientes.findAll();
+    if(data.length > 0){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find results about Clients",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error.",
+    });
+  }
 };
 
-ClienteController.findByPk = (req, res) => {
-  const id = req.params.id;
-  Clientes.findByPk(id).then((data) => {
-    res.send(data);
-  });
+ClienteController.findByPk = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Clientes.findByPk(id);
+
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find any client",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error",
+    });
+  }
 };
 
-ClienteController.findByName = (req, res) => {
-  const nombre = req.params.nombre;
-  Clientes.findOne({ where: { Nombre: nombre } }).then((data) => {
-    res.send(data);
-  });
+ClienteController.findByName = async (req, res) => {
+  try {
+    const nombre = req.params.nombre;
+    const data = await Clientes.findOne({ where: { Nombre: nombre } });
+    
+    if(data){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find a client with this name",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error when retrieving client by name.",
+    });
+  }
 };
 
-ClienteController.findByDNI = (req, res) => {
-  const dni = req.params.dni;
-  Clientes.findOne({ where: { dni: dni } }).then((data) => {
-    res.send(data);
-  });
+ClienteController.findByDNI = async (req, res) => {
+  try {
+    const dni = req.params.dni;
+    const data = await Clientes.findOne({ where: { dni: dni } });
+    
+    if(data){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find a client with this DNI",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error when retrieving client by DNI.",
+    });
+  }
 };
 
-ClienteController.findByPhone = (req, res) => {
-  const phone = req.params.phone;
-  Clientes.findOne({ where: { telefono: phone } }).then((data) => {
-    res.send(data);
-  });
+ClienteController.findByPhone = async (req, res) => {
+  try {
+    const phone = req.params.phone;
+    const data = await Clientes.findOne({ where: { telefono: phone } });
+    
+    if(data){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find a client with this phone number",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error when retrieving client by phone number.",
+    });
+  }
 };
 
-ClienteController.findByEmail = (req, res) => {
-  const email = req.params.email;
-  Clientes.findOne({ where: { email: email } }).then((data) => {
-    res.send(data);
-  });
+ClienteController.findByEmail = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const data = await Clientes.findOne({ where: { email: email } });
+    
+    if(data){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find a client with this email",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error when retrieving client by email.",
+    });
+  }
 };
 
-ClienteController.findByNameLike = (req, res)=> {
-  const nombre = req.params.nombre;
-  Clientes.findAll({ where: { Nombre: {[Op.like]: `%${nombre}%`} } }).then((data) => {
-    res.send(data);
-  });
+ClienteController.findByNameLike = async (req, res)=> {
+  try {
+    const nombre = req.params.nombre;
+    const data = await Clientes.findAll({
+      where: { Nombre: { [Op.like]: `%${nombre}%` } },
+    });
+    
+    if(data){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find a client with similar name",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error when retrieving client by similar name.",
+    });
+  }
 }
 module.exports = ClienteController;

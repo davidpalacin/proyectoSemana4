@@ -2,31 +2,79 @@ const { Hoteles } = require("../models/index");
 
 const HotelController = {};
 
-HotelController.findAll = (req, res) => {
-  Hoteles.findAll().then((data) => {
-    res.send(data);
-  });
+HotelController.findAll = async (req, res) => {
+  try {
+    const data = await Hoteles.findAll();
+
+    if(data){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find any hotel.",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error when retrieving hotels.",
+    });
+  }
 };
 
-HotelController.findByPk = (req, res) => {
-  const id = req.params.id;
-  Hoteles.findByPk(id).then((data) => {
-    res.send(data);
-  });
+HotelController.findByPk = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Hoteles.findByPk(id);
+
+    if(data){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: "Cannot find any hotel with this ID",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error finding hotel with this ID",
+    });
+  }
 };
 
-HotelController.findByName = (req, res) => {
-  const nombre = req.params.nombre;
-  console.log();
-  Hoteles.findOne({ where: { nombre: nombre } }).then((data) => {
-    res.send(data);
-  });
+HotelController.findByName = async (req, res) => {
+  try {
+    const nombre = req.params.nombre;
+    const data = await Hoteles.findAll({ where: { nombre: nombre } });
+
+    if(data.length>0){
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find the hotel: ${nombre}`,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error finding clients with this name",
+    });
+  }
 };
 
-HotelController.findByPrice = (req, res) => {
-  const price = req.params.price;
-  Hoteles.findOne({ where: { importe_noche: price } }).then((data) => {
-    res.send(data);
-  });
+HotelController.findByPrice = async (req, res) => {
+  try {
+    const price = req.params.price;
+    const data = await Hoteles.findOne({ where: { importe_noche: price } });
+
+    if(data){
+      res.json(data)
+    } else {
+      res.status(404).send({
+        message: `Cannot find the hotels with price: ${price}`,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error finding hotels with this price",
+    });
+  }
 };
+
 module.exports = HotelController;
