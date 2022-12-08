@@ -2,6 +2,7 @@ const { Reservas, Clientes, Hoteles } = require("../models.js");
 
 const ReservaController = {};
 
+// Controlador busca todas las reservas
 ReservaController.findAll = async(req, res)=>{
   try {
     const data = await Reservas.findAll({
@@ -10,8 +11,13 @@ ReservaController.findAll = async(req, res)=>{
         {model: Hoteles, as: "id_hotel_Hotele"}
       ],
     });
-    res.json(data);  
-    
+    if(data.length > 0){
+      res.json(data);  
+    }else{
+      res.status(404).send({
+        message: "Cannot find any reservation."
+      });
+    }
   } catch (error) {
     // El catch siempre se utiliza para un error de servidor: 500
     res.status(500).send({
@@ -19,24 +25,24 @@ ReservaController.findAll = async(req, res)=>{
     });
   }
 }
-// ReservaController.findAll = (req, res) => {
-//   Reservas.findAll().then((data) => {
-//     res.send(data);
-//   });
-// };
 
-ReservaController.findByPk = (req, res) => {
-  const id = req.params.id;
+// Busca todas las reservas por PK
+ReservaController.findByPk = async(req, res) => {
   try {
-    Reservas.findByPk(id).then((data) => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find reservation with id=${id}`,
-        });
-      }
+    const id = req.params.id;
+    const data = await Reservas.findByPk(id, {
+      include: [
+        { model: Clientes, as: "id_cliente_Cliente" },
+        { model: Hoteles, as: "id_hotel_Hotele" },
+      ],
     });
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find reservation with id=${id}`,
+      });
+    }
   } catch (error) {
     res.status(500).send({
       message: `Some error ocurred while retrieving reservation with id=${id}.`,
@@ -44,38 +50,84 @@ ReservaController.findByPk = (req, res) => {
   }
 };
 
-ReservaController.findByEntryDate = (req, res) => {
-  const entrydate = req.params.entrydate;
-  Reservas.findOne({ where: { fecha_entrada: entrydate } }).then((data) => {
-    res.send(data);
-  });
-};
-
-ReservaController.findByFinalDate = (req, res) => {
-  const finaldate = req.params.finaldate;
-  Reservas.findOne({ where: { fecha_salida: finaldate } }).then((data) => {
-    res.send(data);
-  });
-};
-
-ReservaController.findByEntryDateWithPk = (req, res) => {
-  const id = req.params.id
-  const entrydate = req.params.entrydate;
-  Reservas.findOne({ where: [{id_reserva: id}, {fecha_entrada: entrydate}] })
-  .then((data) => {
-    if(data.length>0){
-      res.send(data);
-    }else{
+// Busca las reservas con fecha de entrada especifica
+ReservaController.findByEntryDate = async (req, res) => {
+  try {
+    const entrydate = req.params.entrydate;
+    const data = await Reservas.findOne(
+      {
+        where: { fecha_entrada: entrydate },
+        include: [
+          { model: Clientes, as: "id_cliente_Cliente" },
+          { model: Hoteles, as: "id_hotel_Hotele" },
+        ],
+      }
+    );
+    if (data) {
+      res.json(data);
+    } else {
       res.status(404).send({
-        message: `Cannot find this entry.`,
+        message: `cannot find reserv with entry date: ${entrydate}`,
       });
     }
-  })
-  .catch((error)=>{
+  } catch (error) {
     res.status(500).send({
-      message: `Error retrieving reservations with id: ${id} and date: ${entrydate}.`,
+      message: `Some error ocurred while retrieving reservation`,
     });
-  })
+  }
+};
+
+// Busca las reservas con fecha de salida especifica
+ReservaController.findByFinalDate = async (req, res) => {
+  try {
+    const finaldate = req.params.finaldate;
+    const data = await Reservas.findOne({
+      where: { fecha_salida: finaldate },
+      include: [
+        { model: Clientes, as: "id_cliente_Cliente" },
+        { model: Hoteles, as: "id_hotel_Hotele" },
+      ],
+    });
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: `cannot find reserv with end date: ${finaldate}`,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: `Some error ocurred while retrieving reservation`,
+    });
+  }
+};
+
+// Busca las reservas con fecha de entrada y PK especificos
+ReservaController.findByEntryDateWithPk = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const entrydate = req.params.entrydate;  
+
+    const data = await Reservas.findOne({
+      where: [{ id_reserva: id }, { fecha_entrada: entrydate }],
+      include: [
+        { model: Clientes, as: "id_cliente_Cliente" },
+        { model: Hoteles, as: "id_hotel_Hotele" },
+      ],
+    });
+
+    if(data) {
+      res.json(data);
+    } else {
+      res.status(404).send({
+        message: `Cannot find reserv with id: ${id} and entry date: ${entrydate}`,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "An error has ocurred while retrieving reservations."
+    });
+  }
 };
 
 module.exports = ReservaController;
