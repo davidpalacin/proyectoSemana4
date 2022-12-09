@@ -17,10 +17,11 @@
   },
   "production": {
     "username": "root",
-    "password": "root",
-    "database": "agencia_viajes",
-    "port": 3307,
-    "host": "127.0.0.1",
+    "password": "CG9ZPF6uGclbIH433i1b",
+    "database": "railway",
+    "port": 7152,
+    "use_env_variable": "MYSQL_URL",
+    "host": "containers-us-west-142.railway.app",
     "dialect": "mysql"
   }
 }
