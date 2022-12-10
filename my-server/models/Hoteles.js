@@ -15,10 +15,6 @@ class Hoteles extends Sequelize.Model {
     nombre: {
       type: DataTypes.STRING(32),
       allowNull: true
-    },
-    importe_noche: {
-      type: DataTypes.INTEGER,
-      allowNull: true
     }
   }, {
     sequelize,
