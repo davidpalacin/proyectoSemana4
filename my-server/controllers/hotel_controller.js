@@ -5,17 +5,16 @@ const HotelController = {};
 HotelController.findAll = async (req, res) => {
   try {
     const data = await Hoteles.findAll();
-
-    if(data){
+    if(data.length > 0){
       res.json(data);
     } else {
       res.status(404).send({
-        message: "Cannot find any hotel.",
+        message: "Cannot find results about Hotels",
       });
     }
   } catch (error) {
     res.status(500).send({
-      message: "Internal server error when retrieving hotels.",
+      message: "Internal server error while retrieving hotels.",
     });
   }
 };

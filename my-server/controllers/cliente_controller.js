@@ -15,7 +15,7 @@ ClienteController.findAll = async (req, res) => {
     }
   } catch (error) {
     res.status(500).send({
-      message: "Internal server error.",
+      message: "Internal server error while retrieving clients.",
     });
   }
 };
