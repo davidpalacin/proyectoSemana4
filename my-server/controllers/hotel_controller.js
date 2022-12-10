@@ -57,23 +57,4 @@ HotelController.findByName = async (req, res) => {
   }
 };
 
-HotelController.findByPrice = async (req, res) => {
-  try {
-    const price = req.params.price;
-    const data = await Hoteles.findOne({ where: { importe_noche: price } });
-
-    if(data){
-      res.json(data)
-    } else {
-      res.status(404).send({
-        message: `Cannot find the hotels with price: ${price}`,
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      message: "Internal server error finding hotels with this price",
-    });
-  }
-};
-
 module.exports = HotelController;
