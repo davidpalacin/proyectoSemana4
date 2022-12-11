@@ -9,9 +9,9 @@ ReservaController.findAll = async(req, res)=>{
       include:[
         {model: Clientes, as: "id_cliente_Cliente" },
         {model: Hoteles, as: "id_hotel_Hotele"}
-      ],
+      ]
     });
-    if(data.length >= 0){
+    if(data.length>0){
       res.json(data);  
     }else{
       res.status(404).send({
