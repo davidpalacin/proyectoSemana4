@@ -23,6 +23,26 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Hoteles", null, {});
+    await queryInterface.bulkDelete(
+      "Hoteles",
+      [
+        {
+          nombre: "John Doe Hotel",
+        },
+        {
+          nombre: "Hotel Palace",
+        },
+        {
+          nombre: "Hotel Sagrada Familia",
+        },
+        {
+          nombre: "Hotel Glories Barcelona",
+        },
+        {
+          nombre: "Hotelet del Bac",
+        },
+      ],
+      {}
+    );
   }
 };
