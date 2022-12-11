@@ -1,12 +1,21 @@
-const { Clientes } = require("../models");
+const { Clientes, Reservas, Hoteles } = require("../models");
 const { Op } = require("sequelize");
 
 const ClienteController = {};
 
 ClienteController.findAll = async (req, res) => {
   try {
-    const data = await Clientes.findAll();
-    if(data.length > 0){
+    const data = await Clientes.findAll({
+      include: [
+        {
+          model: Reservas,
+          as: "Reservas",
+          include: [{ model: Hoteles, as: "id_hotel_Hotele" }],
+        },
+      ],
+    });
+
+    if (data.length > 0) {
       res.json(data);
     } else {
       res.status(404).send({
@@ -23,8 +32,15 @@ ClienteController.findAll = async (req, res) => {
 ClienteController.findByPk = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await Clientes.findByPk(id);
-
+    const data = await Clientes.findByPk(id, {
+      include: [
+        {
+          model: Reservas,
+          as: "Reservas",
+          include: [{ model: Hoteles, as: "id_hotel_Hotele" }],
+        },
+      ],
+    });
     if (data) {
       res.json(data);
     } else {
@@ -42,9 +58,17 @@ ClienteController.findByPk = async (req, res) => {
 ClienteController.findByName = async (req, res) => {
   try {
     const nombre = req.params.nombre;
-    const data = await Clientes.findOne({ where: { Nombre: nombre } });
-    
-    if(data){
+    const data = await Clientes.findOne({
+      where: { Nombre: nombre },
+      include: [
+        {
+          model: Reservas,
+          as: "Reservas",
+          include: [{ model: Hoteles, as: "id_hotel_Hotele" }],
+        },
+      ],
+    });
+    if (data) {
       res.json(data);
     } else {
       res.status(404).send({
@@ -61,9 +85,17 @@ ClienteController.findByName = async (req, res) => {
 ClienteController.findByDNI = async (req, res) => {
   try {
     const dni = req.params.dni;
-    const data = await Clientes.findOne({ where: { dni: dni } });
-    
-    if(data){
+    const data = await Clientes.findOne({
+      where: { dni: dni },
+      include: [
+        {
+          model: Reservas,
+          as: "Reservas",
+          include: [{ model: Hoteles, as: "id_hotel_Hotele" }],
+        },
+      ],
+    });
+    if (data) {
       res.json(data);
     } else {
       res.status(404).send({
@@ -80,9 +112,18 @@ ClienteController.findByDNI = async (req, res) => {
 ClienteController.findByPhone = async (req, res) => {
   try {
     const phone = req.params.phone;
-    const data = await Clientes.findOne({ where: { telefono: phone } });
-    
-    if(data){
+    const data = await Clientes.findOne({
+      where: { telefono: phone },
+      include: [
+        {
+          model: Reservas,
+          as: "Reservas",
+          include: [{ model: Hoteles, as: "id_hotel_Hotele" }],
+        },
+      ],
+    });
+
+    if (data) {
       res.json(data);
     } else {
       res.status(404).send({
@@ -99,9 +140,18 @@ ClienteController.findByPhone = async (req, res) => {
 ClienteController.findByEmail = async (req, res) => {
   try {
     const email = req.params.email;
-    const data = await Clientes.findOne({ where: { email: email } });
-    
-    if(data){
+    const data = await Clientes.findOne({
+      where: { email: email },
+      include: [
+        {
+          model: Reservas,
+          as: "Reservas",
+          include: [{ model: Hoteles, as: "id_hotel_Hotele" }],
+        },
+      ],
+    });
+
+    if (data) {
       res.json(data);
     } else {
       res.status(404).send({
@@ -115,14 +165,21 @@ ClienteController.findByEmail = async (req, res) => {
   }
 };
 
-ClienteController.findByNameLike = async (req, res)=> {
+ClienteController.findByNameLike = async (req, res) => {
   try {
     const nombre = req.params.nombre;
     const data = await Clientes.findAll({
       where: { Nombre: { [Op.like]: `%${nombre}%` } },
+      include: [
+        {
+          model: Reservas,
+          as: "Reservas",
+          include: [{ model: Hoteles, as: "id_hotel_Hotele" }],
+        },
+      ],
     });
-    
-    if(data){
+
+    if (data) {
       res.json(data);
     } else {
       res.status(404).send({
@@ -134,5 +191,5 @@ ClienteController.findByNameLike = async (req, res)=> {
       message: "Internal server error when retrieving client by similar name.",
     });
   }
-}
+};
 module.exports = ClienteController;
