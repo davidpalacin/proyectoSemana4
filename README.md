@@ -1,4 +1,4 @@
-# API JAVASCRIPT
+# API TRAVEL AGENCY
 
 ## Table of Contents
 
@@ -10,12 +10,12 @@
 
 ## Description <a name = "desc"></a>
 
-An API using only JavaScript, frameworks/libraries: Express and Sequelize, database done in MySQL.
+An API using JavaScript, frameworks/libraries: Express and Sequelize, database done in MySQL. Some useful tools: sequelize-auto, express-generator.
 
 ## Requisites <a name = "requisites"></a>
 
 - You need Node.js
-- Optional: Postman or similar to test the API calls.
+- Optional: Postman or similar API REST client to test the calls.
 
 ## Usage <a name = "usage"></a>
 
@@ -23,9 +23,13 @@ An API using only JavaScript, frameworks/libraries: Express and Sequelize, datab
 
         git clone https://github.com/davidpalacin/proyectoSemana4.git
         
-- To install all the dependencies:
+- Install all the dependencies:
 
         npm install
+
+- Run server:
+
+        npm run start
 
 - You are ready to use API URLs, example with axios: (This example returns all the clients in database).
 
@@ -37,7 +41,7 @@ An API using only JavaScript, frameworks/libraries: Express and Sequelize, datab
 
 ## Example code <a name = "example"></a>
 ![example of API request ](./img/example.png)
-- Response:
+### Response:
 ![example of API response ](./img/exampleResponse.png)
 
 # Endpoints <a name = "endpoints"></a>
