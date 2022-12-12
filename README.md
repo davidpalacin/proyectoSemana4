@@ -19,7 +19,9 @@ An API using only JavaScript, frameworks/libraries: Express and Sequelize, datab
 
 ## Usage <a name = "usage"></a>
 
-- Clone or copy this repository: git clone https://enlacerepo
+- Clone or copy this repository: 
+
+        git clone https://github.com/davidpalacin/proyectoSemana4.git
 - To install all the dependencies: npm install
 - You are ready to use API URLs, example with axios: (This example returns all the clients in database).
 
